@@ -159,6 +159,42 @@ python -m bench.llm_bench \
 
 This benchmark demonstrates a validated 7.21×+ speedup for attention on NVIDIA H100 NVL. The performance may improve further depending on model size, batch scheduling, and AN1-specific reuse optimizations.
 
+---
+
+### 🌱 Energy Efficiency: H100 NVL Power + Speed Results
+
+AN1 was profiled using NVIDIA NVML (`pynvml`) to measure average GPU power during attention workloads.  
+A second benchmark pass on H100 NVL captured both **latency** and **power draw**, using the same public API and a valid AN1 license key.
+
+**Configuration (same as baseline):**
+- FP16
+- Batch = 8
+- Seq Len = 2048
+- Heads = 32
+- Head Dim = 128
+- 50 timed iterations, 10 warmup
+
+**Measured Results (H100 NVL):**
+
+| Backend | Latency (ms) | Tokens/sec | TFLOPs | Avg Power (W) |
+|---------|-------------:|-----------:|-------:|--------------:|
+| Baseline (PyTorch) | 14.13 | 1.16M | 38.9 | 80.22 |
+| AN1 Engine | 1.23 | 13.29M | 445.9 | 73.72 |
+
+**Impact:**
+- AN1 completes attention operations **~11.3× faster**
+- Power draw is nearly the same or slightly lower
+- Because energy = power × time, AN1 reduces energy per attention step by ~90 percent
+
+> ⚡ **Conclusion:** AN1 is not just faster — it is a *green accelerator* that delivers high throughput with dramatically lower energy cost.
+
+---
+
+#### 🔧 Benchmark Code Used (Power)
+```bash
+python bench/power_measure.py
+
+
 ## Benchmarking
 
 ### Running Benchmarks
@@ -266,3 +302,4 @@ Phone: **305-505-5268**
 (Please include your organization, hardware, and intended use.)
 
 > Note: The AN1 engine is not open source. This public repository is MIT-licensed for the API and tooling only. The AN1 backend is proprietary and licensed separately.
+
