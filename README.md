@@ -212,6 +212,8 @@ python bench/power_measure.py
 
 ---
 
+Benchmarks were repeated on independent H100 NVL instances provisioned through Vast.ai and RunPod. This confirms that the observed acceleration is consistent and not tied to vendor-specific kernel tuning, PCIe topology quirks, or instance-specific configuration.
+
 ## Benchmarking
 
 ### Running Benchmarks
